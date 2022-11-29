@@ -1,0 +1,80 @@
+body{
+    background-color: lightslategray;
+}
+
+#logowanie #error{
+  color: crimson;
+  text-align: center;
+  font-size: 13px;
+}
+
+#okno{
+    text-align: center;
+    margin-top: 20%;
+}
+
+#logowanie{
+    display: block;
+}
+
+#oknoSzukajGry{
+    display: none;
+}
+
+#oknoSzukajGry #left *{
+    display: block;
+    margin-bottom: 3%;
+}
+
+#oknoSzukajGry #right *{
+    display: inline;
+}
+
+#oknoSzukajGry #bottom *{
+    margin-top: 2%;
+    text-align: center;
+}
+
+#oknoSzukajGry #error2{
+  color: crimson;
+  font-size: 13px;
+}
+
+#oknoLobby {
+  display: none;
+  margin: auto;
+  margin-top: 10%;
+  width: 50%;
+  padding: 10px;
+}
+
+#oknoLobby h2{
+    display: inline;
+}
+
+#oknoLobby #left{
+    display: inline-block;
+    float: left;
+}
+
+#oknoLobby #right{
+    display: inline-block;
+    float: right;
+    margin-left: 10%;
+}
+
+#oknoLobby #bottom{
+    margin-top: 15%;
+    clear: left;
+    overflow-y:scroll;
+    width: 40%;
+    height: 35%;
+    border:2px solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#oknoLobby #bottom li{
+    text-decoration: none;
+    text-align: left;
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Gra</title>
+</head>
+<body>
+        <div id="okno">
+            <div id="oknoStartowe"> 
+                <div id="logowanie">
+                    <input type="text" placeholder="Nick..." id="nick">
+                    <input type="button" value="Dołącz" onclick="send_nick()" id="polacz">
+                    <h1 id='error'></h1>
+                </div>  
+                
+            </div>
+
+            <div id="oknoSzukajGry">
+                <div id="left">
+                    <h1 id='nick_text'>Witaj</h1>
+                </div>
+                
+                <div id="right">
+                    <h2 id='playeOnline'>Graczy online: 0</h2>           
+                </div>
+                
+                <div id="bottom">
+                    <input type="button" value="Szukaj gry" id="szukajGry" onclick="play()">
+                    <h1 id='error2'></h1>
+                </div>        
+            </div>
+        
+        
+            <div id="oknoLobby"> 
+                <div id="left">
+                    <h2 id='timeToStart'>Time: --</h2>
+                </div> 
+                <div id="right">
+                    <h2 id='playerOnlineLobby'>Graczy w Lobby: </h2><h2 id='playerOnlineLobbyMax'></h2>
+                </div>
+                
+                <div id="bottom">
+                   <ol id='oList'>
+                  </ol>
+                </div>
+           </div>         
+        </div>
+         
+        <script>   
+        const ws = new WebSocket("ws://localhost:12345/");
+        ws.onmessage = function(event){
+            let playersInLobby = 1;
+		dataServer = JSON.parse(event.data)
+		console.log(dataServer)
+                
+			if(dataServer[0] == "client_success_login")
+			{
+				document.getElementById("oknoStartowe").style.display = 'none';
+                                document.getElementById("oknoSzukajGry").style.display = 'block';
+				document.getElementById("nick_text").innerHTML = "Witaj "+document.getElementById("nick").value;
+			}
+			
+			if(dataServer[0] == "client_sum_online_player")
+			{
+				document.getElementById("playeOnline").innerHTML = "Graczy online: "+dataServer[1];
+			}
+                        
+                        if(dataServer[0] == "client_time_to_start_game")
+                        {
+                            document.getElementById("timeToStart").innerHTML = "Time: "+dataServer[1];
+                            if(dataServer[1] == 1)
+                            {
+                                setTimeout(function (){
+                                document.getElementById("timeToStart").innerHTML = "Time: --";        
+                                }, 1000);   
+                            }
+                            if(dataServer[1] == -1)
+                            {
+                                document.getElementById("timeToStart").innerHTML = "Time: --"; 
+                            }
+                        }
+                        
+                        if(dataServer[0] == "client_list_player_in_lobby")
+                        {
+                            playersInLobby = dataServer[1].length;
+                            document.getElementById("playerOnlineLobby").innerHTML = "Graczy w Lobby: "+playersInLobby+"/";
+                            
+                            listNode = document.getElementById('oList').innerHTML = "";
+                            
+                            const iterator = dataServer[1].values();
+                                for (const value of iterator) {
+                                addLi(value);
+                            }
+                        }
+                        
+                        if(dataServer[0] == "client_success_join_to_lobby")
+                        {
+                            document.getElementById("playerOnlineLobby").innerHTML = "Graczy w Lobby: "+playersInLobby+"/";
+                            document.getElementById("playerOnlineLobbyMax").innerHTML = dataServer[1];
+                            document.getElementById("oknoSzukajGry").style.display = 'none';
+                            document.getElementById("oknoLobby").style.display = 'block';        
+                        }
+        };
+        
+        function addLi(txtVal)
+            {
+                listNode = document.getElementById('oList'),
+                liNode = document.createElement("LI"),
+                txtNode = document.createTextNode(txtVal);
+            
+                liNode.appendChild(txtNode);
+                listNode.appendChild(liNode);
+            }
+		
+        function send_nick(){
+            if(/^([A-Za-z0-9]{3,15})$/.test(document.getElementById("nick").value))
+                {
+                try {
+                    ws.send(JSON.stringify(["server_login",document.getElementById("nick").value]));
+                } catch (error) {
+                    document.getElementById("error").innerHTML="Brak połączenia z serwerem, spróbuj później";
+                } 
+            }else
+            {
+                document.getElementById("error").innerHTML="Niepoprawny nick";
+            }
+        }
+        
+        function play(){
+            try {
+                ws.send(JSON.stringify(["server_join_to_lobby"]));
+            } catch (error) {
+                document.getElementById("error2").innerHTML="Brak połączenia z serwerem, spróbuj później";
+            }
+        }
+	
+		window.onbeforeunload = function (e) {
+             ws.send(JSON.stringify(["server_leave_game"]));
+		};
+	</script>
+</body>
+</html>
