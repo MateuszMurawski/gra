@@ -17,7 +17,7 @@ async def main():
     async with websockets.serve(
         Server.newPlayerConnected,
         host="",
-        port=8080,
+        port=6666,
         process_request=health_check,
     ):
         await stop
