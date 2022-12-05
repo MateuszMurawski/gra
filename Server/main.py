@@ -20,8 +20,7 @@ async def main():
         port=8080,
         process_request=health_check,
     ):
-        await stop
-        
+        await stop    
 
 if __name__ == '__main__':
     asyncio.run(main())
