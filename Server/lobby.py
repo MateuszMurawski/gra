@@ -22,7 +22,7 @@ class Lobby:
             await Send.sendMessageToPlayer(player.client, json.dumps(["client_success_leave_lobby"]))
             await Send.sendMessageToAll(Lobby.allPlayerInLobby, json.dumps(["client_list_player_in_lobby", Lobby.nicksWithList()]))
 
-        if len(Lobby.allPlayerInLobby) < 2:
+        if len(Lobby.allPlayerInLobby) < 2 and Lobby.ifTimeToStartGame == True:
             Lobby.ifTimeToStartGame = False
             Lobby.timerLobby.cancel()
             await Send.sendMessageToAll(Lobby.allPlayerInLobby, json.dumps(["client_time_to_start_game", -1]))
