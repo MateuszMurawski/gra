@@ -59,7 +59,7 @@
 			{
 				document.getElementById("oknoStartowe").style.display = 'none';
                                 document.getElementById("oknoSzukajGry").style.display = 'block';
-				document.getElementById("nick_text").innerHTML = "Witaj "+document.getElementById("nick").value;
+				document.getElementById("nick_text").innerHTML = "Hello "+document.getElementById("nick").value;
 			}
 			
 			if(dataServer[0] == "client_sum_online_player")
@@ -120,11 +120,11 @@
                 try {
                     ws.send(JSON.stringify(["server_login",document.getElementById("nick").value]));
                 } catch (error) {
-                    document.getElementById("error").innerHTML="Brak połączenia z serwerem, spróbuj później";
+                    document.getElementById("error").innerHTML="Can't connect to server, please try again later";
                 } 
             }else
             {
-                document.getElementById("error").innerHTML="Niepoprawny nick";
+                document.getElementById("error").innerHTML="Invalid nickname";
             }
         }
         
@@ -132,7 +132,7 @@
             try {
                 ws.send(JSON.stringify(["server_join_to_lobby"]));
             } catch (error) {
-                document.getElementById("error2").innerHTML="Brak połączenia z serwerem, spróbuj później";
+                document.getElementById("error2").innerHTML="Can't connect to server, please try again later";
             }
         }
 	
