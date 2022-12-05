@@ -13,7 +13,7 @@ class Server:
             return http.HTTPStatus.OK, [], b"OK\n"
 
     async def startServer():
-        await websockets.serve(Server.newPlayerConnected, "", 8080, process_request=health_check,)
+        await websockets.serve(Server.newPlayerConnected, "", 8080, process_request=health_check)
 
     def findPlayerInList(clientSocket):
         for player in Server.allPlayerOnline:
