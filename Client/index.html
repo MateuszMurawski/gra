@@ -11,7 +11,7 @@
             <div id="oknoStartowe"> 
                 <div id="logowanie">
                     <input type="text" placeholder="Nick..." id="nick">
-                    <input type="button" value="Dołącz" onclick="send_nick()" id="polacz">
+                    <input type="button" value="Sign In" onclick="send_nick()" id="polacz">
                     <h1 id='error'></h1>
                 </div>  
                 
@@ -19,15 +19,15 @@
 
             <div id="oknoSzukajGry">
                 <div id="left">
-                    <h1 id='nick_text'>Witaj</h1>
+                    <h1 id='nick_text'>Hello</h1>
                 </div>
                 
                 <div id="right">
-                    <h2 id='playeOnline'>Graczy online: 0</h2>           
+                    <h2 id='playeOnline'>Online players: 0</h2>           
                 </div>
                 
                 <div id="bottom">
-                    <input type="button" value="Szukaj gry" id="szukajGry" onclick="play()">
+                    <input type="button" value="Search new game" id="szukajGry" onclick="play()">
                     <h1 id='error2'></h1>
                 </div>        
             </div>
@@ -38,7 +38,7 @@
                     <h2 id='timeToStart'>Time: --</h2>
                 </div> 
                 <div id="right">
-                    <h2 id='playerOnlineLobby'>Graczy w Lobby: </h2><h2 id='playerOnlineLobbyMax'></h2>
+                    <h2 id='playerOnlineLobby'>Players in lobby: </h2><h2 id='playerOnlineLobbyMax'></h2>
                 </div>
                 
                 <div id="bottom">
@@ -64,7 +64,7 @@
 			
 			if(dataServer[0] == "client_sum_online_player")
 			{
-				document.getElementById("playeOnline").innerHTML = "Graczy online: "+dataServer[1];
+				document.getElementById("playeOnline").innerHTML = "Online players: "+dataServer[1];
 			}
                         
                         if(dataServer[0] == "client_time_to_start_game")
@@ -85,7 +85,7 @@
                         if(dataServer[0] == "client_list_player_in_lobby")
                         {
                             playersInLobby = dataServer[1].length;
-                            document.getElementById("playerOnlineLobby").innerHTML = "Graczy w Lobby: "+playersInLobby+"/";
+                            document.getElementById("playerOnlineLobby").innerHTML = "Players in lobby: "+playersInLobby+"/";
                             
                             listNode = document.getElementById('oList').innerHTML = "";
                             
@@ -97,7 +97,7 @@
                         
                         if(dataServer[0] == "client_success_join_to_lobby")
                         {
-                            document.getElementById("playerOnlineLobby").innerHTML = "Graczy w Lobby: "+playersInLobby+"/";
+                            document.getElementById("playerOnlineLobby").innerHTML = "Players in lobby: "+playersInLobby+"/";
                             document.getElementById("playerOnlineLobbyMax").innerHTML = dataServer[1];
                             document.getElementById("oknoSzukajGry").style.display = 'none';
                             document.getElementById("oknoLobby").style.display = 'block';        

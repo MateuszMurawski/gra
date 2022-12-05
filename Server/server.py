@@ -47,6 +47,6 @@ class Server:
             try:
                 await game.handleDisconnect(clientSocket)
             except:
-                print("Error disconetcted player")
+                print("newPlayerConnected() Error disconected player")
         
             
