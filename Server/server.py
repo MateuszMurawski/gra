@@ -8,13 +8,6 @@ class Server:
 
     allPlayerOnline = []
     
-    async def health_check(path, request_headers):
-        if path == "/healthz":
-            return http.HTTPStatus.OK, [], b"OK\n"
-
-    async def startServer():
-        await websockets.serve(Server.newPlayerConnected, "", 8080, process_request=Server.health_check)
-
     def findPlayerInList(clientSocket):
         for player in Server.allPlayerOnline:
             if player.client == clientSocket:
