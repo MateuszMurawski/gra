@@ -18,7 +18,7 @@ async def main():
         Server.newPlayerConnected,
         host="",
         port=8080,
-        process_request=Server.health_check,
+        process_request=health_check,
     ):
         await stop
         
