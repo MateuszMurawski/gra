@@ -49,7 +49,7 @@
         </div>
          
         <script>   
-        const ws = new WebSocket("wss://gra-backend.onrender.com");
+        const ws = new WebSocket("ws://localhost:12345/");
         ws.onmessage = function(event){
             let playersInLobby = 1;
 		dataServer = JSON.parse(event.data)

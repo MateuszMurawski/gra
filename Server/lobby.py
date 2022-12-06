@@ -18,13 +18,19 @@ class Lobby:
 
     async def removePlayerWithLobby(player):
         if Lobby.findPlayerInList(player):
-            Lobby.allPlayerInLobby.remove(player)
+            try:
+                Lobby.allPlayerInLobby.remove(player)
+            except:
+                print("removePlayerWithLobby() Error remove player with lobby")
             await Send.sendMessageToPlayer(player.client, json.dumps(["client_success_leave_lobby"]))
             await Send.sendMessageToAll(Lobby.allPlayerInLobby, json.dumps(["client_list_player_in_lobby", Lobby.nicksWithList()]))
 
         if len(Lobby.allPlayerInLobby) < 2 and Lobby.ifTimeToStartGame == True:
+            try:
+                Lobby.timerLobby.cancel()
+            except:
+                print("removePlayerWithLobby() Error cancel() timerLobby")
             Lobby.ifTimeToStartGame = False
-            Lobby.timerLobby.cancel()
             await Send.sendMessageToAll(Lobby.allPlayerInLobby, json.dumps(["client_time_to_start_game", -1]))
 
     async def timeToStartGame():

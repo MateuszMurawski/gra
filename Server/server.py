@@ -5,9 +5,8 @@ from player import Player
 from send import Send
 
 class Server:
-
     allPlayerOnline = []
-    
+
     def findPlayerInList(clientSocket):
         for player in Server.allPlayerOnline:
             if player.client == clientSocket:
@@ -27,26 +26,16 @@ class Server:
                 newMessage = json.loads(await clientSocket.recv())
                 print("newPlayerConnected() ", newMessage)
 
-                if newMessage[0] == "server_leave_game":
-                    await Lobby.removePlayerWithLobby(Server.findPlayerInList(clientSocket))
-                    Server.allPlayerOnline.remove(Server.findPlayerInList(clientSocket))
-                    await Send.sendMessageToAll(Server.allPlayerOnline, json.dumps(["client_sum_online_player", len(Server.allPlayerOnline)]))
-                    break
-
-                elif newMessage[0] == "server_join_to_lobby":
+                if newMessage[0] == "server_join_to_lobby":
                     await Lobby.addPlayerToLobby(Server.findPlayerInList(clientSocket))
 
                 elif newMessage[0] == "server_leave_lobby":
                     await Lobby.removePlayerWithLobby(Server.findPlayerInList(clientSocket))
-        
+
         except websockets.exceptions.ConnectionClosed:
-            await Lobby.removePlayerWithLobby(Server.findPlayerInList(clientSocket))
-            Server.allPlayerOnline.remove(Server.findPlayerInList(clientSocket))
-            await Send.sendMessageToAll(Server.allPlayerOnline, json.dumps(["client_sum_online_player", len(Server.allPlayerOnline)]))
-            
             try:
-                await game.handleDisconnect(clientSocket)
+                await Lobby.removePlayerWithLobby(Server.findPlayerInList(clientSocket))
+                Server.allPlayerOnline.remove(Server.findPlayerInList(clientSocket))
+                await Send.sendMessageToAll(Server.allPlayerOnline, json.dumps(["client_sum_online_player", len(Server.allPlayerOnline)]))
             except:
                 print("newPlayerConnected() Error disconected player")
-        
-            
