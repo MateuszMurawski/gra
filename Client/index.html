@@ -120,7 +120,8 @@
                 try {
                     ws.send(JSON.stringify(["server_login",document.getElementById("nick").value]));
                 } catch (error) {
-                    document.getElementById("error").innerHTML="Can't connect to server, please try again later";
+					window.confirm("Can't connect to server, please try again later");
+					document.location.reload(true);
                 } 
             }else
             {
@@ -132,7 +133,8 @@
             try {
                 ws.send(JSON.stringify(["server_join_to_lobby"]));
             } catch (error) {
-                document.getElementById("error2").innerHTML="Can't connect to server, please try again later";
+				window.confirm("Can't connect to server, please try again later");
+				document.location.reload(true);
             }
         }
 	</script>
