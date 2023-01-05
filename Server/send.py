@@ -3,7 +3,7 @@ class Send:
         try:
             await player.send(message)
         except:
-            print("sendMessageToPlayer() Error send message")
+            print("sendMessageToPlayer() Error send message", message)
         print("sendMessageToPlayer() ", message)
 
     async def sendMessageToAll(allPlayer, message):
@@ -11,5 +11,5 @@ class Send:
             try:
                 await player.client.send(message)
             except:
-                print("sendMessageToAll() Error send message")
+                print("sendMessageToAll() Error send message", message)
             print("sendMessageToAll() ", message)
